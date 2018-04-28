@@ -1,0 +1,445 @@
+import java.sql.*;
+import oracle.jdbc.driver.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+
+
+
+
+public class TestDataGenerator {
+
+  public static void main(String args[]) {
+
+    try {
+      Class.forName("oracle.jdbc.driver.OracleDriver");
+      String database = "jdbc:oracle:thin:@oracle-lab.cs.univie.ac.at:1521:lab";
+      String user = "a01277687";
+      String pass = "dbs17";
+
+      // establish connection to database 
+      Connection con = DriverManager.getConnection(database, user, pass);
+      Statement stmt = con.createStatement();
+      
+      //Kunde Tabelle
+      for(int i=1; i<=1000;i++){
+    	  String geschlecht=null;
+      try {
+    	  String s= String.valueOf(i);
+    	  if(i%2==0)
+    		  geschlecht="m";
+    	  else 
+    		  geschlecht="w";
+    	  
+        String insertSql = "INSERT INTO Kunde VALUES ('"+s+"','Vorname"+s+"','Nachname"+s+"','"+geschlecht+"')";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      }
+      
+
+     
+      ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM Kunde");
+      if (rs.next()) {
+        int count1 = rs.getInt(1);
+        System.out.println("Number of datasets of Kunde: " + count1);
+      }
+      
+      
+      
+      
+// Lager Tabelle
+      
+      int u=5;
+      for(int i=2158; i<=2159;i++){
+    	String land = null;
+    	String stadt  = null;
+    	String strasse = null;
+    	String geb_num = null;
+      try {
+    	  String p = String.valueOf(u);
+    	  if(i%2 == 0) {
+    		  p = "78";
+    	  }
+    	  else {
+    		  p = "49";
+    	  }
+    	  if(i%2 == 0) {
+    		  land = "Oesterreich";
+    	      stadt = "Wien";
+    	      strasse = "Laudongasse";
+    	      geb_num = "7";
+    	  }
+    	  else  { 
+    		  land = "Deutschland";
+    	      stadt= "Berlin";
+    	      strasse = "Seestrasse";
+    	      geb_num = "4";
+    	  }
+        String insertSql = "INSERT INTO Lager VALUES ('3367"+p+"','"+land+"','"+stadt+"','"+strasse+"', '"+geb_num+"' )";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      }
+      
+      
+      
+      ResultSet rn = stmt.executeQuery("SELECT COUNT(*) FROM Lager");
+      if (rn.next()) {
+        int count1 = rn.getInt(1);
+        System.out.println("Number of datasets of Bestellung: " + count1);
+      }
+      
+       
+      
+      
+      
+      // Bestellung Tabelle
+      
+      int g=5244;
+      for(int i=2158; i<=3157;i++){
+    	String anz_prd = null;
+    	String Zahl_met  = null;
+      try {
+    	  String s= String.valueOf(i);
+    	  if(g%2 ==0) 
+    		  anz_prd= "3";
+    	  else
+    		  anz_prd= "5";
+    	  if(g%2 == 0)
+    		  Zahl_met = "Kreditkarte";
+    	  else 
+    		  Zahl_met = "Debitkarte";
+        String insertSql = "INSERT INTO Bestellung VALUES ('98754"+s+"','"+anz_prd+"','"+Zahl_met+"')";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      g++;
+      }
+      
+      
+      
+      ResultSet rz = stmt.executeQuery("SELECT COUNT(*) FROM Bestellung");
+      if (rz.next()) {
+        int count1 = rz.getInt(1);
+        System.out.println("Number of datasets of Bestellung: " + count1);
+      }
+      
+      
+      
+      // Produkt Tabelle
+      int l=5244;
+      int o= 2158;
+      int w = 0;
+      for(int i=21; i<=1020;i++){
+    	String anzahl = null;
+    	String kategorie  = null;
+    	int mor = i+1;
+      try {
+    	  String s= String.valueOf(i);
+    	  String p = String.valueOf(l);
+    	  String h = String.valueOf(w);
+    	  String j = String.valueOf(o);
+    	  if(mor%2 == 0) {
+    		  h = "78";
+    	  }
+    	  else {
+    		  h = "49";
+    	  }
+    	   if(l%2 ==0) 
+    		  anzahl= "3000";
+    	  else
+    		  anzahl= "5000";
+    	  if(l%2 == 0)
+    		  kategorie = "Edv/Technik";
+    	  else 
+    		  kategorie = "Lebensmittel";
+        String insertSql = "INSERT INTO Produkt VALUES ('5845"+p+"','"+anzahl+"','"+s+"', '"+kategorie+"', '3367"+h+"', '98754"+j+"')";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      l++;
+      o++;
+      }
+      
+      
+      
+      ResultSet rp = stmt.executeQuery("SELECT COUNT(*) FROM Produkt");
+      if (rp.next()) {
+        int count1 = rp.getInt(1);
+        System.out.println("Number of datasets of Produkt: " + count1);
+      }
+      
+      
+      
+// Aktion Tabelle
+      int y = 8;
+      int r=6779;
+      for(int i=5244; i<=6243;i++){
+    	String Akt_V = null;
+    	String Akt_E  = null;
+      try {
+    	  String s= String.valueOf(i);
+    	  String p = String.valueOf(r);
+    	  String lop = String.valueOf(y);
+    	  if(i%2 == 0) {
+    		  lop = "78";
+    	  }
+    	  else {
+    		  lop = "49";
+    	  }
+    	  if(r%2 ==0) 
+    		  Akt_V= "20%";
+    	  else
+    		  Akt_V = "30%";
+    	  if(r%2 == 0)
+    		  Akt_E = "5%";
+    	  else 
+    		  Akt_E = "3%";
+        String insertSql = "INSERT INTO Aktion VALUES ('237"+p+"','"+Akt_V+"', '"+Akt_E+"', '5845"+s+"','3367"+lop+"')";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      r++;
+      }
+      
+      
+      
+      ResultSet rx = stmt.executeQuery("SELECT COUNT(*) FROM Aktion");
+      if (rx.next()) {
+        int count1 = rx.getInt(1);
+        System.out.println("Number of datasets of Aktion: " + count1);
+      }
+      
+      
+      
+      
+     // VIP_Kunde Tabelle
+      
+      int j=1000;
+      for(int i=1; i<=500;i++){
+    	String einkauf = null;
+      try {
+    	  String s= String.valueOf(i);
+    	  String p = String.valueOf(j);
+    	  if(j%2 ==0) 
+    		  einkauf= "2000";
+    	  else
+    		  einkauf= "5000";
+        String insertSql = "INSERT INTO VIP_Kunde VALUES ('"+p+"','"+s+"','"+einkauf+"')";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      j++;
+      }
+      
+      
+      
+      ResultSet rl = stmt.executeQuery("SELECT COUNT(*) FROM VIP_Kunde");
+      if (rl.next()) {
+        int count1 = rl.getInt(1);
+        System.out.println("Number of datasets of VIP_Kunde: " + count1);
+      }
+      
+      
+      
+     // Einfache_Kunde Tabelle
+      
+      int k=2000;
+      for(int i=501; i<=1000;i++){
+    	String einkauf = null;
+      try {
+    	  String s= String.valueOf(i);
+    	  String p = String.valueOf(k);
+    	  if(k%2 ==0) 
+    		  einkauf= "1200";
+    	  else
+    		  einkauf= "1500";
+        String insertSql = "INSERT INTO Einfache_Kunde VALUES ('"+p+"','"+s+"','"+einkauf+"')";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      k++;
+      }
+      
+      
+      
+      ResultSet rd = stmt.executeQuery("SELECT COUNT(*) FROM Einfache_Kunde");
+      if (rd.next()) {
+        int count1 = rd.getInt(1);
+        System.out.println("Number of datasets of Einfache_Kunde: " + count1);
+      }
+      
+      
+    
+      
+     
+      
+      
+      
+      // Macht Tabelle
+      
+      
+      
+      int z=1;
+      for(int i=2158; i<=3157;i++){
+    
+      try {
+    	  String s= String.valueOf(i);
+    	  String p = String.valueOf(z);
+        String insertSql = "INSERT INTO Macht VALUES ('"+p+"','98754"+s+"')";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      z++;
+      }
+      
+      
+      
+      ResultSet rv = stmt.executeQuery("SELECT COUNT(*) FROM Macht");
+      if (rv.next()) {
+        int count1 = rv.getInt(1);
+        System.out.println("Number of datasets of Macht: " + count1);
+      }
+      
+  
+      
+      
+  
+// Istgeschickt Tabelle
+      
+      int q=2;
+      for(int i=2158; i<=3157;i++){
+      try {
+    	  String s= String.valueOf(i);
+    	  String p = String.valueOf(q);
+    	  if(i%2 == 0) {
+    		  p = "78";
+    	  }
+    	  else {
+    		  p = "49";
+    	  }
+        String insertSql = "INSERT INTO Istgeschickt VALUES ('98754"+s+"','3367"+p+"')";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      g++;
+      }
+      
+      
+      
+      ResultSet rc = stmt.executeQuery("SELECT COUNT(*) FROM Istgeschickt");
+      if (rc.next()) {
+        int count1 = rc.getInt(1);
+        System.out.println("Number of datasets of Istgeschickt: " + count1);
+      }
+      
+      
+
+      
+      
+ // Istgeliefert Tabelle
+      int vh = 55;
+      int a=1;
+      for(int i=5244; i<=6243;i++){
+    	String art_lif = null;
+    	String anz_gel_prod  = null;
+      try {
+    	  String p = String.valueOf(a);
+    	  String s= String.valueOf(i);
+    	  String cd = String.valueOf(vh);
+    	  if(i%2 == 0) {
+    		  cd = "78";
+    	  }
+    	  else {
+    		  cd = "49";
+    	  }
+    	  if(i%2 == 0) {
+    		  art_lif = "Post";
+    		  anz_gel_prod = "3";
+    		  
+    	  }
+    	  else {
+    		  art_lif = "LKW";
+    		  anz_gel_prod = "5";
+    	  }
+    	  
+        String insertSql = "INSERT INTO Istgeliefert VALUES ('5845"+s+"','"+p+"','51"+s+"','"+art_lif+"', '"+anz_gel_prod+"','3367"+cd+"' )";
+        stmt.executeUpdate(insertSql);
+      } catch (Exception e) {
+        System.err.println("Fehler beim Einfuegen des Datensatzes: " + e.getMessage());
+      }
+      a++;
+      }
+      
+      
+      
+      ResultSet rg = stmt.executeQuery("SELECT COUNT(*) FROM Istgeliefert");
+      if (rg.next()) {
+        int count1 = rg.getInt(1);
+        System.out.println("Number of datasets of Istgeliefert: " + count1);
+      }
+      
+       
+      
+
+    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+             	
+      // clean up connections
+      rs.close();
+      stmt.close();
+      con.close();
+
+    }catch (Exception e) {
+      System.err.println(e.getMessage());
+    }
+  
+  }
+}
