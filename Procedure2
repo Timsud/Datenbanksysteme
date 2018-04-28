@@ -1,0 +1,6 @@
+create or replace PROCEDURE nach_ein(pn IN integer, nachname OUT VARCHAR2) IS
+BEGIN
+  Select k.nachname INTO nachname from Einfache_Kunde e,Kunde k
+where e.Ein_Kunde_ID=pn AND e.kunde_nr=k.kunde_nr;
+END;
+/

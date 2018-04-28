@@ -1,0 +1,4 @@
+CREATE VIEW insg_kunde (Kundenanzahl) AS
+SELECT COUNT(Kunde_nr) 
+FROM Kunde
+;

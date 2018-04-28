@@ -1,0 +1,14 @@
+create or replace PROCEDURE nach_vip(nn IN integer, nachname OUT VARCHAR2) IS
+BEGIN
+  Select k.nachname INTO nachname from VIP_Kunde v,Kunde k
+where v.vip_id=nn AND v.kunde_nr=k.kunde_nr;
+END;
+/
+
+ 
+
+
+
+
+
+

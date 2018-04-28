@@ -1,0 +1,125 @@
+
+CREATE TABLE Kunde (
+   Kunde_nr   Integer,
+   Vorname    VARCHAR2(20)   NOT NULL,
+   Nachname   VARCHAR2(20)   NOT NULL,
+   Geschlecht  VARCHAR(20),
+   CONSTRAINT  pk_kn  PRIMARY KEY (Kunde_nr)
+ );
+
+ CREATE TABLE Lager(
+   IDNummLager Integer,
+   Land    VARCHAR2(20),
+   Stadt   VARCHAR2(20),
+   Strasse     VARCHAR2(20),
+   Geb_Nummer   Integer,
+   CONSTRAINT pk_lg PRIMARY KEY (IDNummLager)  
+ );
+ 
+ 
+ CREATE TABLE Bestellung(
+   Bestellungsnummer  Integer,
+   Anzahl INTEGER,
+   Zahlungsmethode    VARCHAR2(20),
+   CONSTRAINT pk_bst PRIMARY KEY (Bestellungsnummer)
+ );
+ 
+ CREATE TABLE Produkt(
+   ProduktID       Integer,
+   Anz_produkte    INTEGER,
+   Preis           FLOAT,
+   Kategorie       VARCHAR2(20)  NOT NULL,
+   IDNummLager     Integer,
+   Bestellungsnummer  Integer,
+   CONSTRAINT pk_pr PRIMARY KEY   (ProduktID,IDNummLager),
+   CONSTRAINT  fk_pr FOREIGN KEY (IDNummLager) REFERENCES  Lager ON DELETE CASCADE,
+   CONSTRAINT  fk_pr2 FOREIGN KEY (Bestellungsnummer) REFERENCES  Bestellung ON DELETE CASCADE
+ );
+ 
+CREATE TABLE Aktion (
+   AktionsID       Integer,
+   Akt_V           VARCHAR2(60),
+   Akt_E           VARCHAR2(60),
+   ProduktID       Integer,
+   IDNummLager     Integer,
+   CONSTRAINT  pk_ak PRIMARY KEY(AktionsID,ProduktID,IDNummLager),
+   CONSTRAINT  fk_ak  FOREIGN KEY(ProduktID,IDNummLager) REFERENCES  Produkt(ProduktID,IDNummLager) ON DELETE CASCADE
+);
+
+
+CREATE TABLE VIP_Kunde (
+   VIP_ID     Integer ,
+   Kunde_nr   Integer ,
+   Summe_aller_Einkaeufe float(20) NOT NULL CHECK (Summe_aller_Einkaeufe >=2000),
+   CONSTRAINT pk_vk PRIMARY KEY (VIP_ID,Kunde_nr),
+   CONSTRAINT fk_vk FOREIGN KEY (Kunde_nr) REFERENCES Kunde ON DELETE CASCADE
+ );
+
+
+CREATE TABLE Einfache_Kunde (
+   Ein_Kunde_ID           Integer,
+   Kunde_nr               Integer,
+   Summe_aller_Einkaeufe  float(20) NOT NULL CHECK (Summe_aller_Einkaeufe < 2000),
+   CONSTRAINT pk_ek PRIMARY KEY (Ein_Kunde_ID, Kunde_nr),
+   CONSTRAINT fk_ek FOREIGN KEY (Kunde_nr) REFERENCES Kunde ON DELETE CASCADE
+ );
+ 
+
+
+
+
+CREATE TABLE Macht(
+   Kunde_nr   Integer,
+   Bestellungsnummer  Integer,
+   CONSTRAINT pk_mt  PRIMARY KEY (Kunde_nr, Bestellungsnummer),
+   CONSTRAINT fk_mt1  FOREIGN KEY (Kunde_nr) REFERENCES Kunde ON DELETE CASCADE,
+   CONSTRAINT fk_mt2  FOREIGN KEY (Bestellungsnummer) REFERENCES Bestellung ON DELETE CASCADE
+ );
+
+
+
+CREATE TABLE Istgeschickt (
+   Bestellungsnummer  Integer,
+   IDNummLager Integer,
+   CONSTRAINT pk_isk PRIMARY KEY (Bestellungsnummer, IDNummLager),
+   CONSTRAINT fk_isk1 FOREIGN KEY (Bestellungsnummer) REFERENCES Bestellung ON DELETE CASCADE,
+   CONSTRAINT fk_isk2 FOREIGN KEY (IDNummLager) REFERENCES Lager ON DELETE CASCADE
+	  );
+
+
+
+CREATE TABLE Istgeliefert(
+   ProduktID       Integer,
+   Kunde_nr        Integer,
+   LiefererID      Integer,
+   Art_von_Lieferung   VARCHAR2(20),
+   anz_gelief_prod    INTEGER,
+   IDNummLager     Integer,
+   CONSTRAINT pk_isgel PRIMARY KEY (ProduktID, Kunde_nr,IDNummLager),
+   CONSTRAINT fk_isgel1 FOREIGN KEY (ProduktID,IDNummLager) REFERENCES  Produkt(ProduktID,IDNummLager) ON DELETE CASCADE,
+   CONSTRAINT fk_isgel2 FOREIGN KEY (Kunde_nr) REFERENCES  Kunde ON DELETE CASCADE	
+ );
+ 
+ 
+INSERT INTO Istgeliefert VALUES(7888, 5557,9999, 'Post',4 ,8989);
+ 
+CREATE SEQUENCE seq_kunde
+START WITH 6000
+INCREMENT BY 20;
+
+CREATE OR REPLACE TRIGGER kunde_trigger
+BEFORE INSERT
+ON Kunde
+REFERENCING NEW AS NEW
+FOR EACH ROW
+BEGIN
+SELECT seq_kunde.nextval INTO :NEW.KUNDE_NR FROM dual;
+END;
+/
+
+
+
+
+
+
+

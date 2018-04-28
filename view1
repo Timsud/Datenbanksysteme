@@ -1,0 +1,5 @@
+CREATE VIEW all_prod AS
+  SELECT kategorie,aktionsid, preis
+  FROM   produkt INNER JOIN aktion ON
+  produkt.produktID=aktion.produktID
+;

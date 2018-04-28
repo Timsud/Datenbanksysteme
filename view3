@@ -1,0 +1,7 @@
+/* Anzahl der Produkte einer Kategorie */
+CREATE VIEW pr_mit_dasss_kat (prod,kat) AS
+  SELECT COUNT (ProduktID), Kategorie
+  FROM Produkt
+  GROUP BY Kategorie
+  HAVING COUNT(ProduktID) > 1 
+;

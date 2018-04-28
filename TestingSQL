@@ -1,0 +1,26 @@
+DELETE FROM Kunde;
+DELETE FROM VIP_Kunde;
+DELETE FROM Einfache_Kunde;
+DELETE FROM Bestellung;
+DELETE FROM Macht;
+DELETE FROM Lager;
+DELETE FROM Istgeschickt;
+DELETE FROM Produkt;
+DELETE FROM Aktion;
+DELETE FROM Istgeliefert;
+
+
+
+
+
+INSERT INTO Kunde VALUES ('','p' ,'pol','W');
+INSERT INTO Kunde VALUES (5557,'p' ,'pol','W');
+INSERT INTO VIP_Kunde VALUES (5788, 5556, 2500,'20 Prozentige skonto');
+INSERT INTO Einfache_Kunde VALUES(3333, 5557, '200','5 Prozentige Skonto');
+INSERT INTO Bestellung VALUES (5222,4, 'Kreditkarte',7888);
+INSERT INTO Macht VALUES(5556,5222);
+INSERT INTO Lager VALUES(3425623, 'Osterreich', 'Wien', 'Haupt.str','57','1050', '750');
+INSERT INTO Istgeschickt VALUES(5222, 3425623);
+INSERT INTO Produkt VALUES(7888,1000, 58, 'Technik');
+INSERT INTO Aktion VALUES(4578, '20 Prozentige skonto','5 Prozentige skonto', 7888);
+INSERT INTO Istgeliefert VALUES(7888, 5557,9999, 'Post',4 );
